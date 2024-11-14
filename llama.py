@@ -97,20 +97,19 @@ kg_query_engine.update_prompts(
     {"response_synthesizer:text_qa_template": qa_prompt_tmpl}
 )
 
-res = kg_query_engine.query('动态规划包含什么?')
+res = kg_query_engine.query('动态规划都有哪些')
 print(res)
 
 
 from pyvis.network import Network
 
-g = kg_index.get_networkx_graph()
-net = Network(notebook=True, cdn_resources="in_line", directed=True)
-net.from_nx(g)
-# Save the HTML to a string
 try:
+    g = kg_index.get_networkx_graph()
+    net = Network(notebook=True, cdn_resources="in_line", directed=True)
+    net.from_nx(g)
+    # Save the HTML to a string
     html_string = net.generate_html()
-
-# Write to a file with UTF-8 encoding
+    # Write to a file with UTF-8 encoding
     with open("example.html", "w", encoding="utf-8") as f:
         f.write(html_string)
 except Exception as e:
