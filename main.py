@@ -36,15 +36,22 @@ def clickConcept():
 @app.route("/api/recommends",methods=["GET"])
 def getRecommend():
     uid = request.args['id']
-    print(uid)
-    result = graph.run(f'''
-    MATCH (u:user)-[r:click]->(c:concept)
-    WHERE u.id = {uid}
-    RETURN c.name,r.click_count
-    ''')
-    ans = [{'concept':record["c.name"],'click_count':record["r.click_count"]} for record in result]
     res = parse_recommend(graph,uid)
-    return jsonify(res)
+    # print(res)
+    result = []
+    for item in res:
+        query = '''
+            match(c:concept {name:$name})
+            return c.description
+        '''
+        ans = graph.run(query,name=item)
+        desc = [record["c.description"] for record in ans]
+        # print(ans)
+        result.append({
+            'name':item,
+            'desc':desc[0]
+        })
+    return jsonify(result)
 
 
 if __name__ == "__main__":

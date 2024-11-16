@@ -3,6 +3,7 @@ import csv
 from py2neo import Node, Relationship
 
 from System.graph_inject import initial
+from crawlers.wikicrawler import parse_description
 
 
 def prework(graph):
@@ -30,3 +31,12 @@ def prework(graph):
     ON CREATE SET r.click_count = 1
     ON MATCH SET r.click_count = r.click_count + 1
     ''')
+
+    concepts = ['哈希表','堆','并查集','栈','二叉树','线性表','队列']
+    mp = parse_description(concepts)
+    for k,v in mp.items():
+        query = '''
+            merge(c:concept {name:$name})
+            set c.description = $description
+        '''
+        graph.run(query,name=k,description=v)
