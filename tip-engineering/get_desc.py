@@ -1,7 +1,6 @@
 import csv
 from ChatGPT import ChatGPT
 
-# 定义函数，使用 ChatGPT 实例生成概念描述
 def get_desc(chatgpt, concept):
     prompt = f"""
         假设你现在是一个数据结构与算法课程的老师，我现在需要你帮我介绍一些关于数据结构和算法的概念。
@@ -13,13 +12,11 @@ def get_desc(chatgpt, concept):
         以上就是回答的一个实例。那么现在我给你的提示词是“{concept}”，请按照如上要求给我回答，并且请用中文回答。
     """
     try:
-        # 调用 chatgpt.chat 方法获取回复
         response = chatgpt.chat(prompt)
         return response["content"]
     except Exception as e:
         return f"获取描述失败：{e}"
 
-# 读取概念列表
 concepts_list = []
 with open('./concepts.csv', 'r', encoding='utf-8') as f:
     reader = csv.reader(f)
@@ -27,9 +24,7 @@ with open('./concepts.csv', 'r', encoding='utf-8') as f:
         if row:
             concepts_list.append(row[0])
 
-# 初始化 ChatGPT 实例
 chatgpt = ChatGPT()
 
-# 测试第一个概念
 response = get_desc(chatgpt, concepts_list[0])
 print(response)
