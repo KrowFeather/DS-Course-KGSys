@@ -1,0 +1,347 @@
+head,rel,tail
+算法,include,复杂度
+算法,include,枚举
+算法,include,模拟
+算法,include,递归
+算法,include,分治
+算法,include,贪心
+算法,include,排序
+排序,include,选择排序
+排序,include,冒泡排序
+排序,include,插入排序
+排序,include,计数排序
+排序,include,基数排序
+排序,include,快速排序
+排序,include,归并排序
+排序,include,堆排序
+排序,include,桶排序
+排序,include,希尔排序
+排序,include,锦标赛排序
+排序,include,tim排序
+算法,include,前缀和
+算法,include,差分
+算法,include,二分
+算法,include,倍增
+算法,include,构造
+算法,include,搜索
+搜索,include,DFS（搜索）
+搜索,include,BFS（搜索）
+搜索,include,双向搜索
+搜索,include,启发式搜索
+搜索,include,A*
+搜索,include,迭代加深搜索
+搜索,include,IDA*
+搜索,include,回溯法
+搜索,include,Dancing Links
+搜索,include,Alpha-Beta 剪枝
+搜索,include,剪枝优化
+算法,include,动态规划
+动态规划,include,记忆化搜索
+动态规划,include,背包 DP
+动态规划,include,区间 DP
+动态规划,include,DAG 上的 DP
+动态规划,include,树形 DP
+动态规划,include,状压 DP
+动态规划,include,数位 DP
+动态规划,include,插头 DP
+动态规划,include,计数 DP
+动态规划,include,动态 DP
+动态规划,include,概率 DP
+动态规划,include,单调队列/单调栈优化
+动态规划,include,斜率优化
+动态规划,include,四边形不等式优化
+动态规划,include,状态设计优化
+数据结构,include,字符串
+算法,include,字符串
+字符串,include,字符串匹配
+字符串,include,字符串哈希
+字符串,include,字典树 (Trie)
+字符串,include,KMP
+字符串,include,Boyer–Moore 算法
+字符串,include,Z 函数（扩展 KMP）
+字符串,include,自动机
+字符串,include,AC 自动机
+字符串,include,后缀数组 (SA)
+字符串,include,后缀自动机 (SAM)
+字符串,include,后缀平衡树
+字符串,include,广义后缀自动机
+字符串,include,后缀树
+字符串,include,Manacher
+字符串,include,回文树
+字符串,include,序列自动机
+字符串,include,最小表示法
+字符串,include,Lyndon 分解
+字符串,include,Main–Lorentz 算法
+算法,include,数学
+数学,include,符号
+数学,include,进位制
+数学,include,位运算
+数学,include,二进制集合操作
+数学,include,平衡三进制
+数学,include,高精度计算
+数学,include,快速幂
+数学,include,置换和排列
+数学,include,弧度制与坐标系
+数学,include,复数
+数学,include,数论
+数论,include,数论基础
+数论,include,素数
+数论,include,最大公约数
+数论,include,数论分块
+数论,include,欧拉函数
+数论,include,筛法
+数论,include,Meissel–Lehmer 算法
+数论,include,分解质因数
+数论,include,裴蜀定理
+数论,include,类欧几里德算法
+数论,include,欧拉定理
+数论,include,费马小定理
+数论,include,乘法逆元
+数论,include,线性同余方程
+数论,include,中国剩余定理
+数论,include,升幂引理
+数论,include,威尔逊定理
+数论,include,卢卡斯定理
+数论,include,同余方程
+数论,include,二次剩余
+数论,include,原根
+数论,include,离散对数
+数论,include,剩余
+数论,include,莫比乌斯反演
+数论,include,杜教筛
+数论,include,Powerful Number 筛
+数论,include,Min_25 筛
+数论,include,洲阁筛
+数论,include,连分数
+数论,include,Stern–Brocot 树
+数论,include,Farey 序列
+数论,include,二次域
+数论,include,循环连分数
+数论,include,Pell 方程
+数学,include,多项式与生成函数
+多项式与生成函数,include,代数基本定理
+多项式与生成函数,include,快速傅里叶变换
+多项式与生成函数,include,快速数论变换
+多项式与生成函数,include,快速沃尔什变换
+多项式与生成函数,include,Chirp Z 变换
+多项式与生成函数,include,多项式牛顿迭代
+多项式与生成函数,include,多项式多点求值|快速插值
+多项式与生成函数,include,多项式初等函数
+多项式与生成函数,include,常系数齐次线性递推
+多项式与生成函数,include,多项式平移|连续点值平移
+多项式与生成函数,include,符号化方法
+多项式与生成函数,include,Lagrange 反演
+多项式与生成函数,include,普通生成函数
+多项式与生成函数,include,指数生成函数
+多项式与生成函数,include,狄利克雷生成函数
+数学,include,组合数学
+组合数学,include,排列组合
+组合数学,include,抽屉原理
+组合数学,include,容斥原理
+组合数学,include,康托展开
+组合数学,include,斐波那契数列
+组合数学,include,错位排列
+组合数学,include,卡特兰数
+组合数学,include,斯特林数
+组合数学,include,贝尔数
+组合数学,include,伯努利数
+组合数学,include,Entringer Number
+组合数学,include,Eulerian Number
+组合数学,include,分拆数
+组合数学,include,范德蒙德卷积
+组合数学,include,图论计数
+数学,include,线性代数
+线性代数,include,向量
+线性代数,include,内积和外积
+线性代数,include,矩阵
+线性代数,include,初等变换
+线性代数,include,行列式
+线性代数,include,线性空间
+线性代数,include,线性基
+线性代数,include,线性映射
+线性代数,include,特征多项式
+线性代数,include,对角化
+线性代数,include,Jordan标准型
+数学,include,线性规划
+线性规划,include,单纯形算法
+数学,include,抽象代数
+抽象代数,include,群论
+抽象代数,include,置换群
+数学,include,概率论
+概率论,include,条件概率与独立性
+概率论,include,随机变量
+概率论,include,随机变量的数字特征
+概率论,include,概率不等式
+数学,include,博弈论
+博弈论,include,公平组合游戏
+博弈论,include,非公平组合游戏
+博弈论,include,反常游戏
+数学,include,数值算法
+数值算法,include,插值
+数值算法,include,数值积分
+数值算法,include,高斯消元
+数值算法,include,牛顿迭代法
+数学,include,傅里叶-莫茨金消元法
+数学,include,序理论
+数学,include,杨氏矩阵
+数学,include,Schreier–Sims 算法
+数学,include,Berlekamp–Massey 算法
+数据结构,include,栈
+数据结构,include,队列
+数据结构,include,链表
+数据结构,include,哈希表
+数据结构,include,并查集
+数据结构,include,堆
+堆,include,二叉堆
+堆,include,配对堆
+堆,include,左偏树
+数据结构,include,块状数据结构
+块状数据结构,include,块状数组
+块状数据结构,include,块状链表
+块状数据结构,include,树分块
+块状数据结构,include,Sqrt Tree
+数据结构,include,平衡树&二叉搜索树
+平衡树&二叉搜索树,include,Treap
+平衡树&二叉搜索树,include,Splay 树
+平衡树&二叉搜索树,include,WBLT
+平衡树&二叉搜索树,include,Size Balanced Tree
+平衡树&二叉搜索树,include,AVL 树
+平衡树&二叉搜索树,include,B 树
+平衡树&二叉搜索树,include,B+ 树
+平衡树&二叉搜索树,include,替罪羊树
+平衡树&二叉搜索树,include,Leafy Tree
+平衡树&二叉搜索树,include,笛卡尔树
+平衡树&二叉搜索树,include,红黑树
+平衡树&二叉搜索树,include,左偏红黑树
+平衡树&二叉搜索树,include,AA 树
+平衡树&二叉搜索树,include,2-3 树
+平衡树&二叉搜索树,include,2-3-4 树
+数据结构,include,跳表
+数据结构,include,可持久化数据结构
+可持久化数据结构,include,可持久化线段树
+可持久化数据结构,include,可持久化块状数组
+可持久化数据结构,include,可持久化平衡树
+可持久化数据结构,include,可持久化字典树
+可持久化数据结构,include,可持久化可并堆
+数据结构,include,树套树
+树套树,include,线段树套线段树
+树套树,include,平衡树套线段树
+树套树,include,线段树套平衡树
+树套树,include,树状数组套权值线段树
+树套树,include,分块套树状数组
+数据结构,include,K-D Tree
+数据结构,include,动态树
+动态树,include,Link Cut Tree
+动态树,include,全局平衡二叉树
+动态树,include,Euler Tour Tree
+动态树,include,Top Tree
+数据结构,include,析合树
+数据结构,include,PQ 树
+数据结构,include,手指树
+数据结构,include,霍夫曼树
+数据结构,include,图论
+算法,include,图论
+图论,include,图的存储
+图论,include,DFS（图论）
+图论,include,BFS（图论）
+图论,include,树论
+树论,include,树的直径
+树论,include,最近公共祖先
+树论,include,树的重心
+树论,include,树链剖分
+树论,include,树上启发式合并
+树论,include,虚树
+树论,include,树分治
+树论,include,动态树分治
+树论,include,AHU 算法
+树论,include,树哈希
+树论,include,树上随机游走
+图论,include,矩阵树定理
+图论,include,有向无环图
+图论,include,拓扑排序
+图论,include,最小生成树
+图论,include,斯坦纳树
+图论,include,最小树形图
+图论,include,最小直径生成树
+图论,include,最短路
+图论,include,拆点
+图论,include,差分约束
+图论,include,k 短路
+图论,include,同余最短路
+图论,include,强连通分量
+图论,include,双连通分量
+图论,include,割点和桥
+图论,include,圆方树
+图论,include,点/边连通度
+图论,include,环计数问题
+图论,include,2-SAT
+图论,include,欧拉图
+图论,include,哈密顿图
+图论,include,二分图
+图论,include,最小环
+图论,include,平面图
+图论,include,图的着色
+图论,include,网络流
+网络流,include,最大流
+网络流,include,最小割
+网络流,include,费用流
+网络流,include,上下界网络流
+图论,include,Stoer–Wagner 算法
+图论,include,图匹配
+图论,include,增广路
+图论,include,二分图最大匹配
+图论,include,二分图最大权匹配
+图论,include,一般图最大匹配
+图论,include,一般图最大权匹配
+图论,include,Prüfer 序列
+图论,include,LGV 引理
+图论,include,弦图
+图论,include,最大团搜索算法
+图论,include,支配树
+图论,include,图上随机游走
+算法,include,计算几何
+计算几何,include,二维计算几何基础
+计算几何,include,三维计算几何基础
+计算几何,include,距离
+计算几何,include,Pick 定理
+计算几何,include,三角剖分
+计算几何,include,凸包
+计算几何,include,扫描线
+计算几何,include,旋转卡壳
+计算几何,include,半平面交
+计算几何,include,平面最近点对
+计算几何,include,随机增量法
+计算几何,include,反演变换
+算法,include,杂项
+杂项,include,离散化
+杂项,include,双指针
+杂项,include,离线算法
+杂项,include,CDQ 分治
+杂项,include,整体二分
+杂项,include,莫队算法
+莫队算法,include,普通莫队算法
+莫队算法,include,带修改莫队
+莫队算法,include,树上莫队
+莫队算法,include,回滚莫队
+莫队算法,include,二维莫队
+莫队算法,include,莫队二次离线
+莫队算法,include,莫队配合 bitset
+杂项,include,分数规划
+杂项,include,随机化
+随机化,include,随机函数
+随机化,include,随机化技巧
+随机化,include,爬山算法
+随机化,include,模拟退火
+杂项,include,悬线法
+杂项,include,计算理论基础
+杂项,include,字节顺序
+杂项,include,约瑟夫问题
+杂项,include,格雷码
+杂项,include,表达式求值
+杂项,include,在一台机器上规划任务
+杂项,include,主元素问题
+杂项,include,Garsia–Wachs 算法
+杂项,include,15-puzzle
+杂项,include,Kahan 求和
+杂项,include,珂朵莉树/颜色段均摊
+数据结构,include,二叉树
