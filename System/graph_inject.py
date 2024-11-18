@@ -3,7 +3,7 @@ from py2neo import Node, Relationship
 
 def getDS(graph):
     query = graph.run(f'''
-    MATCH (parent)-[:包含]->(child)
+    MATCH (parent)-[:include]->(child)
     WHERE parent.name = '数据结构'
     RETURN child.name
     ''')
@@ -13,7 +13,7 @@ def getDS(graph):
 
 def getAlgos(graph):
     query = graph.run(f'''
-        MATCH (parent)-[:包含]->(child)
+        MATCH (parent)-[:include]->(child)
         WHERE parent.name = '算法'
         RETURN child.name
         ''')
@@ -24,12 +24,11 @@ def initial(graph,uname,uid):
     user = Node('user', name=uname, id=uid)
     graph.merge(user, 'user', 'name')
     query = graph.run(f'''
-    MATCH (parent)-[:包含]->(child)
-    WHERE parent.name = '数据结构'
-    RETURN child.name
+    MATCH (c:concept)
+    RETURN c.name
     ''')
-    child_names = [record["child.name"] for record in query]
-    for item in child_names:
+    names = [record["c.name"] for record in query]
+    for item in names:
         node = Node('concept', name=item)
         bel = Relationship(user, 'click', node)
         graph.merge(bel, 'concept', 'name')
