@@ -1,14 +1,14 @@
 import csv
+import json
 
 from py2neo import Node, Relationship
 
 from System.graph_inject import initial
-from crawlers.wikicrawler import parse_description
 
 
 def prework(graph):
     graph.delete_all()
-    with open('data/nbooks/torture(4).csv', 'r', encoding='utf-8') as f:
+    with open('data/concept_rel.csv', 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         data = list(reader)
 
@@ -32,11 +32,22 @@ def prework(graph):
     ON MATCH SET r.click_count = r.click_count + 1
     ''')
 
-    concepts = ['哈希表','堆','并查集','栈','二叉树','线性表','队列']
-    mp = parse_description(concepts)
-    for k,v in mp.items():
+    with open('./data/all_desc.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        print(data)
+
+    for item in data:
         query = '''
-            merge(c:concept {name:$name})
-            set c.description = $description
+        merge(c:concept {name:$name})
+        set c.brief_desc=$brief_desc, c.detailed_desc=$detailed_desc
         '''
-        graph.run(query,name=k,description=v)
+        graph.run(query,name=item['name'],brief_desc=item['brief_description'],detailed_desc=item['detailed_description'])
+
+    # concepts = ['哈希表','堆','并查集','栈','二叉树','线性表','队列']
+    # mp = parse_description(concepts)
+    # for k,v in mp.items():
+    #     query = '''
+    #         merge(c:concept {name:$name})
+    #         set c.description = $description
+    #     '''
+    #     graph.run(query,name=k,description=v)

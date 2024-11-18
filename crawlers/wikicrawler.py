@@ -26,6 +26,3 @@ def parse_description(concepts):
         if description is not None:
             mp[concept] = description
     return mp
-
-ans = parse_description(['二进制'])
-print(ans)

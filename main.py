@@ -9,15 +9,19 @@ from prework import prework
 app = Flask(__name__)
 CORS(app)
 graph = Graph('neo4j://localhost:7687', auth=('neo4j', '12345678'))
+
+
 @app.route("/api/ds")
 def getDataStructures():
     return jsonify(getDS(graph))
+
 
 @app.route("/api/algos")
 def getAlgorithms():
     return jsonify(getAlgos(graph))
 
-@app.route("/api/addclick",methods=["POST"])
+
+@app.route("/api/addclick", methods=["POST"])
 def clickConcept():
     id = request.json.get('id')
     # id = request.args['id']
@@ -33,27 +37,50 @@ def clickConcept():
     print("ok")
     return jsonify("ok")
 
-@app.route("/api/recommends",methods=["GET"])
+
+@app.route("/api/recommends", methods=["GET"])
 def getRecommend():
     uid = request.args['id']
-    res = parse_recommend(graph,uid)
+    res = parse_recommend(graph, uid)
     # print(res)
     result = []
     for item in res:
         query = '''
             match(c:concept {name:$name})
-            return c.description
+            return c.brief_desc
         '''
-        ans = graph.run(query,name=item)
-        desc = [record["c.description"] for record in ans]
+        ans = graph.run(query, name=item)
+        desc = [record["c.brief_desc"] for record in ans]
         # print(ans)
         result.append({
-            'name':item,
-            'desc':desc[0]
+            'name': item,
+            'desc': desc[0]
         })
     return jsonify(result)
 
 
+@app.route('/api/concepts')
+def getConcepts():
+    query = '''
+    match (c:concept)
+    return id(c) as id, c.name
+    '''
+    res = graph.run(query)
+    item = [{'id':record['id'],'value': record['c.name']} for record in res]
+    return jsonify(item)
+
+
+@app.route('/api/concepts/<cid>', methods=["GET"])
+def getConceptDetail(cid):
+    query = '''
+    match(c:concept)
+    where id(c) = toInteger($id)
+    return c.name,c.detailed_desc
+    '''
+    res = graph.run(query, id=cid)
+    result = [{'name':record['c.name'],'detailed_desc':record['c.detailed_desc']} for record in res]
+    return jsonify(result[0])
+
 if __name__ == "__main__":
     prework(graph)
-    app.run()
+    app.run(debug=True)
