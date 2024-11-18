@@ -42,7 +42,6 @@ def clickConcept():
 def getRecommend():
     uid = request.args['id']
     res = parse_recommend(graph, uid)
-    # print(res)
     result = []
     for item in res:
         query = '''
@@ -51,7 +50,6 @@ def getRecommend():
         '''
         ans = graph.run(query, name=item)
         desc = [record["c.brief_desc"] for record in ans]
-        # print(ans)
         result.append({
             'name': item,
             'desc': desc[0]
@@ -82,5 +80,5 @@ def getConceptDetail(cid):
     return jsonify(result[0])
 
 if __name__ == "__main__":
-    prework(graph)
+    # prework(graph)
     app.run(debug=True)
