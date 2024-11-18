@@ -1,4 +1,3 @@
-import csv
 import json
 from ChatGPT import ChatGPT
 from tqdm import tqdm
@@ -23,37 +22,34 @@ def get_desc(concept):
     except Exception as e:
         return f"获取描述失败：{e}"
 
-concepts_list = []
-with open('./all_concepts.csv', 'r', encoding='utf-8') as f:
-    reader = csv.reader(f)
-    next(reader)
-    for row in reader:
-        if row:
-            concepts_list.append(row[0])
-
-print(f"概念列表读取完成，共 {len(concepts_list)} 个概念。")
-
-output_file = './all_desc.json'
+input_file = './all_desc.json'
+output_file = './all_desc_updated.json'
 
 try:
-    with open(output_file, 'r', encoding='utf-8') as f:
+    with open(input_file, 'r', encoding='utf-8') as f:
         all_desc = json.load(f)
-    print(f"已加载 {len(all_desc)} 条已保存的记录。")
-except (FileNotFoundError, json.JSONDecodeError):
-    all_desc = []
+except FileNotFoundError:
+    print(f"文件 {input_file} 不存在，请检查路径！")
+    exit(1)
 
-processed_ids = {entry["id"] for entry in all_desc}
+failed_entries = [entry for entry in all_desc if entry["brief_description"] in ["解析失败", "生成失败或格式错误"]]
 
-with open(output_file, 'w', encoding='utf-8') as f:
-    for idx, concept in enumerate(tqdm(concepts_list, desc="Processing Concepts...", unit="concept")):
-        if idx in processed_ids:
-            continue
+if not failed_entries:
+    print("没有需要重新处理的记录！")
+    exit(0)
 
-        response = get_desc(concept)
+for entry in tqdm(failed_entries, desc="Retrying Failed Entries", unit="entry"):
+    max_retries = 5
+    retries = 0
+    success = False
+
+    while not success and retries < max_retries:
+        response = get_desc(entry["name"])
         if "大致解释是" in response and "详细解释是" in response:
             try:
                 brief_desc = response.split("大致解释是：")[1].split('\n')[0].strip()
                 detailed_desc = response.split("详细解释是：")[1].strip()
+                success = True
             except IndexError:
                 brief_desc = "解析失败"
                 detailed_desc = response
@@ -61,16 +57,17 @@ with open(output_file, 'w', encoding='utf-8') as f:
             brief_desc = "生成失败或格式错误"
             detailed_desc = response
 
-        entry = {
-            "id": idx,
-            "name": concept,
-            "brief_description": brief_desc,
-            "detailed_description": detailed_desc
-        }
-        all_desc.append(entry)
+        if success:
+            entry["brief_description"] = brief_desc
+            entry["detailed_description"] = detailed_desc
+        else:
+            retries += 1
+            print(f"第 {retries} 次重试失败，正在重新尝试...")
 
-        f.seek(0)
-        json.dump(all_desc, f, ensure_ascii=False, indent=4)
-        f.truncate()
+    if not success:
+        print(f"记录 {entry['name']} 的处理多次失败，未能成功生成描述。")
 
-print(f"所有概念处理完成，结果已保存到 {output_file}")
+with open(output_file, 'w', encoding='utf-8') as f:
+    json.dump(all_desc, f, ensure_ascii=False, indent=4)
+
+print(f"所有失败记录处理完成，更新后的数据已保存到 {output_file}")
