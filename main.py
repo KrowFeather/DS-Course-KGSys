@@ -80,5 +80,5 @@ def getConceptDetail(cid):
     return jsonify(result[0])
 
 if __name__ == "__main__":
-    # prework(graph)
+    prework(graph)
     app.run(debug=True)

@@ -20,8 +20,8 @@ def getAlgos(graph):
     child_names = [record["child.name"] for record in query]
     return child_names
 
-def initial(graph,uname,uid):
-    user = Node('user', name=uname, id=uid)
+def initial(graph,uname,uid,role):
+    user = Node('user', name=uname, id=uid,role=role)
     graph.merge(user, 'user', 'name')
     query = graph.run(f'''
     MATCH (c:concept)

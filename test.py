@@ -1,14 +1,15 @@
 import gradio as gr
-from langchain.llms.ollama import Ollama
-from langchain_ollama import OllamaLLM
+from langchain_ollama import OllamaLLM, ChatOllama
 
-llm = OllamaLLM(model='llama3.2')
+llm = ChatOllama(model='llama3.2')
 
 
 def echo(message, history):
-    ans = llm(message)
-    print(ans)
-    return ans
+    ans = llm.stream(message)
+    msg = ''
+    for chunk in ans:
+        msg += chunk.content
+        yield msg
 
 
 demo = gr.ChatInterface(fn=echo,type='messages',examples=["hello", "hola", "merhaba"])

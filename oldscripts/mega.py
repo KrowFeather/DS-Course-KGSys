@@ -6,7 +6,7 @@ from langchain_chroma import Chroma
 from langchain_community.document_loaders import DirectoryLoader
 from langchain_core.prompts import PromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_ollama import OllamaLLM
+from langchain_ollama import OllamaLLM, ChatOllama
 
 embedding_model_dict = {
     'ernie-tiny':'nghuyong/ernie-3.0-nano-zh',
@@ -45,7 +45,7 @@ if not os.path.exists('VectorStore'):
 else:
     db = Chroma(persist_directory='./VectorStore', embedding_function=embeddings)
 
-llm = OllamaLLM(model='llama3.2')
+llm = ChatOllama(model='llama3.2')
 retriever = db.as_retriever()
 
 template = '''
