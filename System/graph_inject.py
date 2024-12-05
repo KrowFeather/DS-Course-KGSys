@@ -20,7 +20,7 @@ def getAlgos(graph):
     child_names = [record["child.name"] for record in query]
     return child_names
 
-def initial(graph,uname,uid,role):
+def initial_user(graph,uname,uid,role):
     user = Node('user', name=uname, id=uid,role=role)
     graph.merge(user, 'user', 'name')
     query = graph.run(f'''
@@ -36,3 +36,10 @@ def initial(graph,uname,uid,role):
         MATCH (u:user)-[r:click]->(c:concept)
         SET r.click_count = 0
         ''')
+
+def initial_class(graph,class_id,course_name,capacity):
+    cls = Node('Class', class_id=class_id, course_name=course_name, capacity=capacity)
+    graph.merge(cls, 'Class','class_id')
+
+
+
