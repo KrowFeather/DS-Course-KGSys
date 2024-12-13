@@ -1,8 +1,8 @@
 import gradio as gr
-from langchain_ollama import OllamaLLM, ChatOllama
+from transformers import AutoModel
 
-llm = ChatOllama(model='llama3.2')
-
+model_path = './pretrained_llama/pretrained_llama'
+llm = AutoModel.from_pretrained(model_path)
 
 def echo(message, history):
     ans = llm.stream(message)
