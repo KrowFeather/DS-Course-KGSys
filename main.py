@@ -1,5 +1,3 @@
-import os
-
 import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -273,5 +271,5 @@ def process_graph_data():
     return matched_cnames
 
 if __name__ == "__main__":
-    # prework(graph)
+    prework(graph)
     app.run(debug=True)

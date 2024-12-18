@@ -200,7 +200,6 @@ head,rel,tail
 块状数据结构,include,块状链表
 块状数据结构,include,树分块
 块状数据结构,include,Sqrt Tree
-数据结构,include,平衡树&二叉搜索树
 平衡树&二叉搜索树,include,Treap
 平衡树&二叉搜索树,include,Splay 树
 平衡树&二叉搜索树,include,WBLT
@@ -223,22 +222,15 @@ head,rel,tail
 可持久化数据结构,include,可持久化平衡树
 可持久化数据结构,include,可持久化字典树
 可持久化数据结构,include,可持久化可并堆
-数据结构,include,树套树
 树套树,include,线段树套线段树
 树套树,include,平衡树套线段树
 树套树,include,线段树套平衡树
 树套树,include,树状数组套权值线段树
 树套树,include,分块套树状数组
-数据结构,include,K-D Tree
-数据结构,include,动态树
 动态树,include,Link Cut Tree
 动态树,include,全局平衡二叉树
 动态树,include,Euler Tour Tree
 动态树,include,Top Tree
-数据结构,include,析合树
-数据结构,include,PQ 树
-数据结构,include,手指树
-数据结构,include,霍夫曼树
 数据结构,include,图论
 算法,include,图论
 图论,include,图的存储
@@ -344,4 +336,40 @@ head,rel,tail
 杂项,include,15-puzzle
 杂项,include,Kahan 求和
 杂项,include,珂朵莉树/颜色段均摊
-数据结构,include,二叉树
+数据结构,include,线性表
+线性表,include,线性链表
+线性表,include,循环链表
+线性表,include,双向链表
+数据结构,include,树
+树,include,二叉树
+树,include,平衡树&二叉搜索树
+树,include,树套树
+树,include,动态树
+树,include,手指树
+树,include,析合树
+树,include,PQ 树
+树,include,霍夫曼树
+树,include,K-D Tree
+树,include,平衡二叉树
+树,include,遍历二叉树
+树,include,线索二叉树
+数据结构,include,数组
+数据结构,include,矩阵
+数据结构,include,广义表
+矩阵,include,特殊矩阵
+矩阵,include,稀疏矩阵
+图论,include,数组
+图论,include,邻接表
+图论,include,十字链表
+图论,include,邻接多重表
+栈,include,单调栈
+数组,include,树状数组
+数组,include,块状数组
+数据结构,include,ST 表
+队列,include,单调队列
+二叉树,include,线段树
+线段树,include,李超线段树
+树,include,划分树
+树,include,二叉搜索树
+树,include,平衡树
+树,include,树上问题
