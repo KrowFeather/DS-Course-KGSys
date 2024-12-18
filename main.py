@@ -1,3 +1,6 @@
+import os
+
+import pandas as pd
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from py2neo import Graph
@@ -6,7 +9,7 @@ from System.graph_inject import getDS, getAlgos
 from System.recommend import parse_recommend
 from xuanke.create_class import create_class_for_user
 from xuanke.select_class import select_class
-
+from TuiJian.TuiJian import get_top_5_concepts,match_with_tag_list
 
 from prework import prework
 
@@ -151,7 +154,124 @@ def join_class():
     else:
         return jsonify({"error": "Failed to join class or class does not exist."}), 400
 
+#推荐tag练习
+@app.route('/get_tag_exercises', methods=['POST'])
+def get_tag_exercises():
+    try:
+        data = request.get_json()
+
+        if data is None:
+            return jsonify({'error': 'Invalid JSON format'}), 400
+
+        cname = data.get('CName', '')
+
+        if not cname:
+            return jsonify({'error': 'CName is required'}), 400
+
+        tag_list = './data/tag_list.csv'
+        exercises = './data/all_exercises.csv'
+
+        df_tag = pd.read_csv(tag_list, encoding='utf-8')
+
+        result = df_tag[df_tag['CName'] == cname]
+
+        if not result.empty:
+            ename = result['EName'].iloc[0]
+            print(f"Found EName: {ename}")  # 打印找到的 EName
+
+            df_exercises = pd.read_csv(exercises, encoding='utf-8')
+
+            df_exercises['tag'] = df_exercises['tag'].fillna('').astype(str)
+
+            print(f"Tags in all_exercises:\n{df_exercises['tag'].head()}")  # 打印tag列前几行数据
+            matching_exercises = df_exercises[df_exercises['tag'].str.contains(ename, na=False, regex=False)]
+
+            if not matching_exercises.empty:
+                exercises_data = []
+                for _, row in matching_exercises.iterrows():
+                    exercises_data.append({
+                        'text': row['text'],
+                        'level': row['level'],
+                        'url': row['url']
+                    })
+                # 返回number和匹配的练习数据，确保number是int类型
+                return jsonify({
+                    'exercises': exercises_data
+                })
+
+            return jsonify({'error': 'No exercises found for this tag'}), 404
+
+        return jsonify({'error': 'CName not found'}), 404
+
+    except Exception as e:
+        # 打印详细的异常信息
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/get_all_exercises', methods=['GET'])
+def get_all_exercises():
+    file_path = './data/all_exercises.csv'
+    try:
+        df = pd.read_csv(file_path)
+        selected_columns = df[['text', 'level', 'url']]
+        exercises_list = selected_columns.to_dict(orient='records')
+
+        return jsonify(exercises_list)
+    except FileNotFoundError:
+        return jsonify({"error": "File not found"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/search_exercises', methods=['POST'])
+def search_exercises():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'Invalid JSON format'}), 400
+
+        # 获取搜索字符串
+        EXERCISES_FILE = './data/all_exercises.csv'
+        search_text = data.get('search_text', '').strip()
+        if not search_text:
+            return jsonify({'error': 'Search text is required'}), 400
+
+        df_exercises = pd.read_csv(EXERCISES_FILE, encoding='utf-8')
+
+        matching_exercises = df_exercises[df_exercises['text'].str.contains(search_text, case=False, na=False)]
+
+        exercises_data = []
+        for _, row in matching_exercises.iterrows():
+            exercises_data.append({
+                'text': row['text'],
+                'level': row['level'],
+                'url': row['url']
+            })
+
+        return jsonify({'exercises': exercises_data})
+
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/top5_concepts', methods=['GET'])
+def top_5_concepts():
+    # 调用处理函数获取前五个点击量最高的concept
+    matched_cnames = get_top_5_concepts(graph)
+
+    return jsonify(matched_cnames)
+
+
+@app.route('/process_data', methods=['GET'])
+def process_graph_data():
+    # 获取前五个点击量最高的concept
+    concepts = get_top_5_concepts(graph)
+
+    matched_cnames = match_with_tag_list(concepts, graph)
+    return matched_cnames
 
 if __name__ == "__main__":
-    prework(graph)
+    # prework(graph)
     app.run(debug=True)
