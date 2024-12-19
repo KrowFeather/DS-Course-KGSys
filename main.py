@@ -8,6 +8,7 @@ from System.recommend import parse_recommend
 from xuanke.create_class import create_class_for_user
 from xuanke.select_class import select_class
 from TuiJian.TuiJian import get_top_5_concepts,match_with_tag_list
+from create.create_stu import create_user_node
 
 from prework import prework
 
@@ -270,6 +271,24 @@ def process_graph_data():
     matched_cnames = match_with_tag_list(concepts, graph)
     return matched_cnames
 
+@app.route('/create_stu', methods=['POST'])
+def create_stu():
+    try:
+        data = request.get_json()
+
+        if not data or 'id' not in data or 'name' not in data:
+            return jsonify({'error': '缺少 id 或 name 字段'}), 400
+        user_id = data['id']
+        user_name = data['name']
+
+        create_user_node(id=user_id, name=user_name, graph=graph)
+
+        return jsonify({'message': f'用户节点已创建: id={user_id}, name={user_name}, role=1'}), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == "__main__":
-    prework(graph)
+    # prework(graph)
     app.run(debug=True)
