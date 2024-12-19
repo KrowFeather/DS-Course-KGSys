@@ -1,10 +1,7 @@
-import csv
-
-
 def select_class(driver, user_id, role, class_id):
     user_id = int(user_id)
 
-    if role != '0':  # 仅允许 role 为 0 的用户加入班级
+    if role != 0:
         print("User does not have permission to join a class.")
         return None
 
@@ -43,10 +40,10 @@ def select_class(driver, user_id, role, class_id):
     driver.run(query_selection)
 
     # 记录班级与用户关系
-    with open('data/student_class.csv', mode='a', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        rel = 'selection'
-        writer.writerow([class_id, rel, user_id])  # 记录每个班级与用户的关系
+    # with open('data/student_class.csv', mode='a', newline='', encoding='utf-8') as file:
+    #     writer = csv.writer(file)
+    #     rel = 'selection'
+    #     writer.writerow([class_id, rel, user_id])  # 记录每个班级与用户的关系
 
     print(f"User {user_id} has successfully joined class {class_id}.")
     return class_id

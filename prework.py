@@ -43,75 +43,75 @@ def prework(graph):
         '''
         graph.run(query,name=item['name'],brief_desc=item['brief_description'],detailed_desc=item['detailed_description'])
 
-    with open('data/class.csv', 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        data = list(reader)
-
-    # 从第二行开始处理数据，跳过表头
-    for i in range(1, len(data)):
-        initial_class(graph,data[i][0],data[i][1],data[i][2])
-
-
-    with open('data/teacher_class.csv', 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        data = list(reader)
-
-
-    for i in range(1, len(data)):
-        teacher_id = int(data[i][0].strip())
-        class_id = data[i][2].strip()
-
-        teacher_query = graph.run(f'''
-                    MATCH (u:user)
-                    WHERE u.id = {teacher_id}
-                    RETURN u
-                ''')
-        teacher_node = teacher_query.evaluate()  # 返回查询到的节点
-
-        class_query = graph.run(f'''
-                    MATCH (c:Class)
-                    WHERE c.class_id = "{class_id}"
-                    RETURN c
-                ''')
-        class_node = class_query.evaluate()  # 返回查询到的节点
-        if teacher_node and class_node:
-            # 创建教师与课程之间的 OWN 关系
-            own_relation = Relationship(teacher_node, 'own', class_node)
-
-            # 合并关系到图数据库，防止重复创建
-            graph.create(own_relation)
-
-    print("所有教师与课程之间的 OWN 关系创建完成。")
-
-    with open('data/student_class.csv', 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        data = list(reader)
-
-
-    for i in range(1, len(data)):
-        student_id = int(data[i][2].strip())
-        class_id = data[i][0].strip()
-
-        student_query = graph.run(f'''
-                    MATCH (u:user)
-                    WHERE u.id = {student_id}
-                    RETURN u
-                ''')
-        student_node = student_query.evaluate()  # 返回查询到的节点
-
-        class_query = graph.run(f'''
-                    MATCH (c:Class)
-                    WHERE c.class_id = "{class_id}"
-                    RETURN c
-                ''')
-        class_node = class_query.evaluate()  # 返回查询到的节点
-        if student_node and class_node:
-            selection_relation = Relationship(class_node, 'selection', student_node)
-
-            # 合并关系到图数据库，防止重复创建
-            graph.create(selection_relation)
-
-    print("所有学生与课程之间的 SELECTION 关系创建完成。")
+    # with open('data/class.csv', 'r', encoding='utf-8') as f:
+    #     reader = csv.reader(f)
+    #     data = list(reader)
+    #
+    # # 从第二行开始处理数据，跳过表头
+    # for i in range(1, len(data)):
+    #     initial_class(graph,data[i][0],data[i][1],data[i][2])
+    #
+    #
+    # # with open('data/teacher_class.csv', 'r', encoding='utf-8') as f:
+    # #     reader = csv.reader(f)
+    # #     data = list(reader)
+    #
+    #
+    # for i in range(1, len(data)):
+    #     teacher_id = int(data[i][0].strip())
+    #     class_id = data[i][2].strip()
+    #
+    #     teacher_query = graph.run(f'''
+    #                 MATCH (u:user)
+    #                 WHERE u.id = {teacher_id}
+    #                 RETURN u
+    #             ''')
+    #     teacher_node = teacher_query.evaluate()  # 返回查询到的节点
+    #
+    #     class_query = graph.run(f'''
+    #                 MATCH (c:Class)
+    #                 WHERE c.class_id = "{class_id}"
+    #                 RETURN c
+    #             ''')
+    #     class_node = class_query.evaluate()  # 返回查询到的节点
+    #     if teacher_node and class_node:
+    #         # 创建教师与课程之间的 OWN 关系
+    #         own_relation = Relationship(teacher_node, 'own', class_node)
+    #
+    #         # 合并关系到图数据库，防止重复创建
+    #         graph.create(own_relation)
+    #
+    # print("所有教师与课程之间的 OWN 关系创建完成。")
+    #
+    # # with open('data/student_class.csv', 'r', encoding='utf-8') as f:
+    # #     reader = csv.reader(f)
+    # #     data = list(reader)
+    #
+    #
+    # for i in range(1, len(data)):
+    #     student_id = int(data[i][2].strip())
+    #     class_id = data[i][0].strip()
+    #
+    #     student_query = graph.run(f'''
+    #                 MATCH (u:user)
+    #                 WHERE u.id = {student_id}
+    #                 RETURN u
+    #             ''')
+    #     student_node = student_query.evaluate()  # 返回查询到的节点
+    #
+    #     class_query = graph.run(f'''
+    #                 MATCH (c:Class)
+    #                 WHERE c.class_id = "{class_id}"
+    #                 RETURN c
+    #             ''')
+    #     class_node = class_query.evaluate()  # 返回查询到的节点
+    #     if student_node and class_node:
+    #         selection_relation = Relationship(class_node, 'selection', student_node)
+    #
+    #         # 合并关系到图数据库，防止重复创建
+    #         graph.create(selection_relation)
+    #
+    # print("所有学生与课程之间的 SELECTION 关系创建完成。")
 
     # concepts = ['哈希表','堆','并查集','栈','二叉树','线性表','队列']
     # mp = parse_description(concepts)

@@ -1,18 +1,16 @@
 import random
 import string
-import csv
-import os
-from py2neo import Graph
+
 
 def generate_class_id():
     # 生成一个随机的八位班级号，包含大写字母和数字
     existing_class_ids = set()
-    with open('data/class.csv', 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
-        next(reader)  # 跳过表头
-        for row in reader:
-            class_id = row[0].strip()  # 获取第一列的班级号并去掉空白字符
-            existing_class_ids.add(class_id)  # 将班级号添加到集合中
+    # with open('data/class.csv', 'r', encoding='utf-8') as f:
+    #     reader = csv.reader(f)
+    #     next(reader)  # 跳过表头
+    #     for row in reader:
+    #         class_id = row[0].strip()  # 获取第一列的班级号并去掉空白字符
+    #         existing_class_ids.add(class_id)  # 将班级号添加到集合中
 
     # 生成一个随机的八位班级号，包含大写字母和数字
     new_class_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
@@ -46,14 +44,14 @@ def create_class(driver, user_id, class_id, capacity, course_name):
     print(f"Class {class_id} created with capacity {capacity} and OWN relationship established.")
 
     # 将用户与班级的关系记录到 CSV 文件
-    with open('data/teacher_class.csv', mode='a', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        rel = 'own'
-        writer.writerow([user_id,rel, class_id])  # 记录每个班级与用户的关系
-
-    with open('data/class.csv', mode='a', newline='', encoding='utf-8') as file:
-        writer = csv.writer(file)
-        writer.writerow([class_id, course_name, capacity])  # 记录每个班级与用户的关系
+    # with open('data/teacher_class.csv', mode='a', newline='', encoding='utf-8') as file:
+    #     writer = csv.writer(file)
+    #     rel = 'own'
+    #     writer.writerow([user_id,rel, class_id])  # 记录每个班级与用户的关系
+    #
+    # with open('data/class.csv', mode='a', newline='', encoding='utf-8') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerow([class_id, course_name, capacity])  # 记录每个班级与用户的关系
 
     return class_id
 
