@@ -95,16 +95,22 @@ def create_class():
     course_name = data.get('course_name')
     capacity = data.get('capacity')
 
-    print(f"Received role: {role}")  # 打印查看role
+    print(f"Received role: {role}")
+
+    if role == 'teacher':
+        role_ = 1
+    elif role == 'student':
+        role_ = 0
+    else:
+        role_ = 2
 
     # 权限验证
-    if str(role) != '1':  # 假设role是字符串'1'
+    if role_ != 1:
         print(f"Permission denied. Invalid role: {role}")
         return jsonify({"error": "Permission denied. Invalid role."}), 403
 
     # 权限验证通过后创建班级
-    print('111')
-    class_id = create_class_for_user(graph, user_id, role, capacity, course_name)
+    class_id = create_class_for_user(graph, user_id, role_, capacity, course_name)
     print(class_id)
 
     if class_id:
@@ -118,20 +124,30 @@ def create_class():
 def get_classes():
     user_id = int(request.args.get('user_id'))
     role = request.args.get('role')
+    print(user_id)
+    print(type(user_id))
+
+    if role == 'teacher':
+        role_ = 1
+    elif role == 'student':
+        role_ = 0
+    else:
+        role_ = 2
+
     # 假设你通过 user_id 查询对应的课程数据
-    if role == '1':
+    if role_ == 1:
         query = f'''
                 MATCH (u:user {{id: {user_id}}})-[:own]->(c:Class)
                 RETURN c.class_id, c.course_name, c.capacity
             '''
         result = graph.run(query).data()
-    else:
+    elif role_ == 0:
         query = f'''
                 MATCH (c:Class)-[:selection]->(u:user {{id: {user_id}}})
-                RETURN c.class_id, c.course_name, c.capacity
+                MATCH (owner:user)-[:own]->(c)
+                RETURN c.class_id, c.course_name, c.capacity, owner.name
             '''
         result = graph.run(query).data()
-    # print(result)
     # 返回查询到的课程数据
     return jsonify(result)
 
@@ -143,8 +159,15 @@ def join_class():
     role = request.json.get('role')  # 用户角色
     class_id = request.json.get('class_id')  # 班级号
 
+    if role == 'teacher':
+        role_ = 1
+    elif role == 'student':
+        role_ = 0
+    else:
+        role_ = 2
+
     # 调用 select_class 函数加入班级
-    result = select_class(graph, user_id, role, class_id)
+    result = select_class(graph, user_id, role_, class_id)
     print(result)
 
     if result:
