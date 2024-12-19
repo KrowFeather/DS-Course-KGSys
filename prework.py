@@ -21,8 +21,8 @@ def prework(graph):
         graph.merge(node1, 'concept', 'name')
         graph.merge(bel, 'concept', 'name')
 
-    initial_user(graph,'admin',1,0)
-    initial_user(graph,'bob',2,1)
+    initial_user(graph,'TestStudent1',11111,0)
+    initial_user(graph,'TestTeacher2',22222,1)
 
     graph.run(f'''
     MATCH (u:user), (c:concept)

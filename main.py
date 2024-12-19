@@ -7,7 +7,7 @@ from System.graph_inject import getDS, getAlgos
 from System.recommend import parse_recommend
 from xuanke.create_class import create_class_for_user
 from xuanke.select_class import select_class
-from TuiJian.TuiJian import get_top_5_concepts,match_with_tag_list
+from TuiJian.TuiJian import get_top_5_concepts, match_with_tag_list
 from create.create_stu import create_user_node
 
 from prework import prework
@@ -70,7 +70,7 @@ def getConcepts():
     return id(c) as id, c.name
     '''
     res = graph.run(query)
-    item = [{'id':record['id'],'value': record['c.name']} for record in res]
+    item = [{'id': record['id'], 'value': record['c.name']} for record in res]
     return jsonify(item)
 
 
@@ -82,8 +82,9 @@ def getConceptDetail(cid):
     return c.name,c.detailed_desc
     '''
     res = graph.run(query, id=cid)
-    result = [{'name':record['c.name'],'detailed_desc':record['c.detailed_desc']} for record in res]
+    result = [{'name': record['c.name'], 'detailed_desc': record['c.detailed_desc']} for record in res]
     return jsonify(result[0])
+
 
 # 新增路由，用于创建班级
 @app.route('/api/create_class', methods=["POST"])
@@ -153,7 +154,8 @@ def join_class():
     else:
         return jsonify({"error": "Failed to join class or class does not exist."}), 400
 
-#推荐tag练习
+
+# 推荐tag练习
 @app.route('/get_tag_exercises', methods=['POST'])
 def get_tag_exercises():
     try:
@@ -271,19 +273,29 @@ def process_graph_data():
     matched_cnames = match_with_tag_list(concepts, graph)
     return matched_cnames
 
-@app.route('/create_stu', methods=['POST'])
+
+@app.route('/create_user_node', methods=['POST'])
 def create_stu():
     try:
         data = request.get_json()
 
-        if not data or 'id' not in data or 'name' not in data:
-            return jsonify({'error': '缺少 id 或 name 字段'}), 400
+        if not data or 'id' not in data or 'username' not in data or 'role' not in data:
+            return jsonify({'error': '缺少 id 或 username 字段'}), 400
         user_id = data['id']
-        user_name = data['name']
+        user_name = data['username']
+        role_ = data['role']
+        if role_ == 'student':
+            role = 0
+        elif role_ == 'teacher':
+            role = 1
+        else:
+            role = 2
 
-        create_user_node(id=user_id, name=user_name, graph=graph)
-
-        return jsonify({'message': f'用户节点已创建: id={user_id}, name={user_name}, role=1'}), 201
+        flag = create_user_node(id=user_id, name=user_name, role=role, graph=graph)
+        if flag == 0:
+            return jsonify({'message': f'用户已存在，创建失败'})
+        else:
+            return jsonify({'message': f'用户节点已创建: id={user_id}, name={user_name}, role={role_}'}), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
