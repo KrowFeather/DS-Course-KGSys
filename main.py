@@ -1,6 +1,6 @@
 import pandas as pd
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 from py2neo import Graph
 
 from System.graph_inject import getDS, getAlgos
@@ -45,8 +45,10 @@ def clickConcept():
 
 
 @app.route("/api/recommends", methods=["GET"])
+@cross_origin()
 def getRecommend():
     uid = request.args['id']
+    uid = int(uid)
     res = parse_recommend(graph, uid)
     result = []
     for item in res:
@@ -322,6 +324,36 @@ def create_stu():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/findStudents', methods=['POST'])
+@cross_origin()
+def findStudents():
+    # 获取前端传来的class_id
+    class_id = request.json.get('classID')
+    if not class_id:
+        return jsonify({"error": "class_id is required"}), 400
+    print(class_id)
+    # 查询Class节点和与其相关的User节点，通过click关系获取click_count属性
+    query = """
+        MATCH (c:Class {class_id: $class_id})-[:selection]->(u:user)
+        OPTIONAL MATCH (u)-[cl:click]->(con:concept)
+        WHERE cl.click_count <> 0
+        RETURN u.name AS user_name, COUNT(cl) AS click_count
+    """
+
+    # 执行查询
+    result = graph.run(query, class_id=class_id)
+    print(result)
+
+    # 获取查询结果
+    response_data = []
+    for record in result:
+        user_name = record["user_name"]
+        total_click_count = record["click_count"]
+        response_data.append({"name": user_name, "click_count": total_click_count})
+    print(response_data)
+    return jsonify(response_data)
 
 
 if __name__ == "__main__":
