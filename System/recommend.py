@@ -3,7 +3,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 
 def recommend_items(user_index, df, item_similarity_df, top_n=3):
-    user_ratings = df.iloc[int(user_index)-1]
+    print(df.shape)
+    user_ratings = df.iloc[user_index-1]
     rated_items = user_ratings[user_ratings > 0].index.tolist()  # 获取用户评分过的物品
     # print(rated_items)
     # 创建一个字典来存储推荐分数
