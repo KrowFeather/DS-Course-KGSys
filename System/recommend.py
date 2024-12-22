@@ -39,6 +39,17 @@ def parse_recommend(graph, uid):
     RETURN u.id,c.name,r.click_count
     order by u.id
     ''')
+
+    shiro = graph.run(f'''
+    MATCH (u:user)
+    RETURN u.id
+    order by u.id
+    ''')
+    us = {}
+    i=0
+    for ids in shiro:
+        us[shiro["u.id"]] = i
+        i+=1
     data = []
     for record in result:
         data.append((record["u.id"], record["c.name"], record["r.click_count"]))
@@ -50,7 +61,8 @@ def parse_recommend(graph, uid):
     item_similarity_df = pd.DataFrame(item_similarity, index=df.columns, columns=df.columns)
     print("\n物品之间的相似度矩阵:")
     print(item_similarity_df)
-    recommended_items = recommend_items(uid, df, item_similarity_df, top_n=3)
+    print(us[uid])
+    recommended_items = recommend_items(us[uid], df, item_similarity_df, top_n=3)
     print("\n为User1推荐的物品:")
     for item in recommended_items:
         print(f"{item}")
